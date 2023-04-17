@@ -3,6 +3,7 @@ using Order.Data.Data;
 using Order.Data.Interfaces;
 using Order.Data.Repository;
 using Order.Services.Interface;
+using Order.Services.MapperProfile;
 using Order.Services.Services;
 
 namespace OrderAPI
@@ -20,7 +21,13 @@ namespace OrderAPI
                 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
+            // Unit of work dependency Injection
             builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+
+            // Auto Mapper Dependency Injection
+            builder.Services.AddAutoMapper(typeof(MapperProfile));
+
+            // All controller Service
             builder.Services.AddScoped<IProductService, ProductService>();
             builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
             builder.Services.AddScoped<IOrderService, OrderService>();

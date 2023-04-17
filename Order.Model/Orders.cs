@@ -27,5 +27,9 @@ namespace Order.Model
         public decimal OrderAmount { get; set; }
 
         public string? Comments { get; set; }
+
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
+
+        public DateTime? LastUpdate { get; set; } = null;
     }
 }

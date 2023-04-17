@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Order.Data.Interfaces;
 using Order.Model;
+using Order.Services.DTOs;
 using Order.Services.Interface;
 
 namespace OrderAPI.Controllers
@@ -18,14 +19,14 @@ namespace OrderAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Product>>> Get()
+        public async Task<ActionResult<IEnumerable<ProductDTO>>> Get()
         {
             var products = await _productService.GetProducts();
             return Ok(products);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Product>> Get(int id)
+        public async Task<ActionResult<ProductDTO>> Get(int id)
         {
             var product = await _productService.GetProductById(id);
             if(product == null)
@@ -36,7 +37,7 @@ namespace OrderAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Product product)
+        public async Task<IActionResult> Post(ProductDTO product)
         {
             if (product == null)
             {
@@ -47,7 +48,7 @@ namespace OrderAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, Product product)
+        public async Task<IActionResult> Update(int id, ProductDTO product)
         {
             bool res = await _productService.Update(id, product);
             if (!res)

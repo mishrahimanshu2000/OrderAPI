@@ -1,5 +1,7 @@
-﻿using Order.Data.Interfaces;
+﻿using AutoMapper;
+using Order.Data.Interfaces;
 using Order.Model;
+using Order.Services.DTOs;
 using Order.Services.Interface;
 using System;
 using System.Collections.Generic;
@@ -12,30 +14,38 @@ namespace Order.Services.Services
     public class CustomerService : ICustomerService
     {
         private readonly IUnitOfWork _unitOfWork;
-        public CustomerService(IUnitOfWork unitOfWork)
+        private readonly IMapper _mapper;
+
+        public CustomerService(IUnitOfWork unitOfWork, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
-        public async Task<IEnumerable<Customer>> GetCustomers()
+        public async Task<IEnumerable<CustomerDTO>> GetCustomers()
         {
-            return await _unitOfWork.Customers.GetAllAsync();
+            IEnumerable<Customer> customers = await _unitOfWork.Customers.GetAllAsync();
+            var res = _mapper.Map<IList<CustomerDTO>>(customers);
+            return res;
+
         }
 
-        public async Task<Customer> GetCustomerById(int id)
+        public async Task<CustomerDTO> GetCustomerById(int id)
         {
-            return await _unitOfWork.Customers.GetAsync(c => c.CustomerId == id);
+            var customer = await _unitOfWork.Customers.GetAsync(c => c.CustomerId == id);
+            return _mapper.Map<CustomerDTO>(customer);
         }
 
-        public async Task Add(Customer customer)
+        public async Task Add(CustomerDTO customerDTO)
         {
+            var customer = _mapper.Map<Customer>(customerDTO);
             _unitOfWork.Customers.Add(customer);
             await _unitOfWork.SaveAsync();
         }
 
         public async Task<bool> Delete(int id)
         {
-            Customer customer = await GetCustomerById(id);
+            Customer customer = await _unitOfWork.Customers.GetAsync(c => c.CustomerId == id);
             if (customer == null)
             {
                 return false;
@@ -45,12 +55,14 @@ namespace Order.Services.Services
             return true;
         }
 
-        public async Task<bool> Update(int id, Customer customer)
+        public async Task<bool> Update(int id, CustomerDTO customerDTO)
         {
-            if (id != customer.CustomerId)
+            if (id != customerDTO.CustomerId)
             {
                 return false;
             }
+            var customer = _mapper.Map<Customer>(customerDTO);
+            customer.LastUpdate = DateTime.Now;
             _unitOfWork.Customers.Update(customer);
             await _unitOfWork.SaveAsync();
             return true;

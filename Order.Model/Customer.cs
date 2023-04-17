@@ -14,16 +14,20 @@ namespace Order.Model
 
 
         [Required]
-        [StringLength(100)]
+        [StringLength(maximumLength:20, ErrorMessage = "Customer name is too long")]
         public string CustomerName { get; set;}
 
 
         [Required]
-        [StringLength(100)]
+        [StringLength(maximumLength: 100, ErrorMessage = "Adderess is Too long")]
         public string CustomerAddress { get; set;}
 
         [Required]
         [StringLength(20)]
         public string TaxIdentifier { get; set;}
+
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
+
+        public DateTime? LastUpdate { get; set; } = null;
     }
 }

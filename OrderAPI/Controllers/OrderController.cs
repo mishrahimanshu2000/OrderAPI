@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Order.Model;
+using Order.Services.DTOs;
 using Order.Services.Interface;
 
 namespace OrderAPI.Controllers
@@ -17,27 +18,27 @@ namespace OrderAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<OrderDetail>>> Get()
+        public async Task<ActionResult<IEnumerable<OrderDetailDTO>>> Get()
         {
             var orderDetails = await _orderService.GetOrders();
             return Ok(orderDetails);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Orders>> GetById(int id)
+        public async Task<ActionResult<OrdersDTO>> GetById(int id)
         {
             return await _orderService.GetOrderById(id);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(Orders order)
+        public async Task<IActionResult> Post(OrdersDTO order)
         {
             await _orderService.Add(order);
             return Ok("Order Added Successfully");
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update(int id, Orders order)
+        public async Task<IActionResult> Update(int id, OrdersDTO order)
         {
             bool res = await _orderService.Update(id, order);
             return res == true ? Ok("Order Updated Successfully")

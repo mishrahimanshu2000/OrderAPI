@@ -1,4 +1,5 @@
 ﻿using Order.Model;
+using Order.Services.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,10 @@ namespace Order.Services.Interface
 {
     public interface IOrderService
     {
-        Task<IEnumerable<Orders>> GetOrders();
-        Task<Orders> GetOrderById(int id);
-        Task Add(Orders order);
+        Task<IEnumerable<OrdersDTO>> GetOrders();
+        Task<OrdersDTO> GetOrderById(int id);
+        Task Add(OrdersDTO order);
         Task<bool> Delete(int id);
-        Task<bool> Update(int id, Orders order);
+        Task<bool> Update(int id, OrdersDTO order);
     }
 }
