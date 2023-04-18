@@ -16,9 +16,9 @@ namespace Order.Model
 
 
         [DisplayName(nameof(Customer))]
-        public int CustomerID { get; set; }
-        [ForeignKey("CustomerID")]
+        //public int CustomerID { get; set; }
         public Customer Customer { get; set; }
+        [ForeignKey("CustomerId")]
 
         public DateTime OrderDate { get; set; } = DateTime.Today;
 

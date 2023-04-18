@@ -16,15 +16,15 @@ namespace Order.Model
 
 
         [DisplayName(nameof(Orders))]
-        public int OrderID { get; set; }
-        [ForeignKey("OrderID")]
+        //public int OrderID { get; set; }
         public Orders Orders { get; set; }
+        [ForeignKey("OrderId")]
 
 
         [DisplayName(nameof(Product))]
-        public int ProductID { get; set; }
-        [ForeignKey("ProductID")]
+        //public int ProductID { get; set; }
         public Product Product { get; set; }
+        [ForeignKey("ProductId")]
 
 
         [Required]

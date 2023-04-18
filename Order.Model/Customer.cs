@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Order.Model.CustomAttributes;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -15,6 +16,7 @@ namespace Order.Model
 
         [Required]
         [StringLength(maximumLength:20, ErrorMessage = "Customer name is too long")]
+        [IsValid(ErrorMessage = "Name should not be empty null or whiteSpace")]
         public string CustomerName { get; set;}
 
 
