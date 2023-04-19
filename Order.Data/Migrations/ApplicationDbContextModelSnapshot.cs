@@ -53,7 +53,7 @@ namespace Order.Data.Migrations
 
                     b.HasKey("CustomerId");
 
-                    b.ToTable("Customers");
+                    b.ToTable("Customer_info", (string)null);
                 });
 
             modelBuilder.Entity("Order.Model.OrderDetail", b =>
@@ -70,10 +70,10 @@ namespace Order.Data.Migrations
                     b.Property<DateTime?>("LastUpdate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("OrderId")
+                    b.Property<int>("OrdersOrderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("OrdersOrderId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("Quantity")
@@ -81,11 +81,11 @@ namespace Order.Data.Migrations
 
                     b.HasKey("OrderDetailId");
 
-                    b.HasIndex("OrderId");
-
                     b.HasIndex("OrdersOrderId");
 
-                    b.ToTable("OrderDetails");
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Order_Details", (string)null);
                 });
 
             modelBuilder.Entity("Order.Model.Orders", b =>
@@ -118,7 +118,7 @@ namespace Order.Data.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Order_info", (string)null);
                 });
 
             modelBuilder.Entity("Order.Model.Product", b =>
@@ -157,20 +157,35 @@ namespace Order.Data.Migrations
 
                     b.HasKey("ProductId");
 
-                    b.ToTable("Products");
+                    b.ToTable("Product_info", (string)null);
+                });
+
+            modelBuilder.Entity("Order.Model.ProductOrderDetail", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderDetailId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProductId", "OrderDetailId");
+
+                    b.HasIndex("OrderDetailId");
+
+                    b.ToTable("ProductOrderDetail");
                 });
 
             modelBuilder.Entity("Order.Model.OrderDetail", b =>
                 {
-                    b.HasOne("Order.Model.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Order.Model.Orders", "Orders")
                         .WithMany()
                         .HasForeignKey("OrdersOrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Order.Model.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -182,12 +197,46 @@ namespace Order.Data.Migrations
             modelBuilder.Entity("Order.Model.Orders", b =>
                 {
                     b.HasOne("Order.Model.Customer", "Customer")
-                        .WithMany()
+                        .WithMany("Orders")
                         .HasForeignKey("CustomerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("Order.Model.ProductOrderDetail", b =>
+                {
+                    b.HasOne("Order.Model.OrderDetail", "OrderDetail")
+                        .WithMany("ProductOrders")
+                        .HasForeignKey("OrderDetailId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("Order.Model.Product", "Product")
+                        .WithMany("ProductOrders")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("OrderDetail");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("Order.Model.Customer", b =>
+                {
+                    b.Navigation("Orders");
+                });
+
+            modelBuilder.Entity("Order.Model.OrderDetail", b =>
+                {
+                    b.Navigation("ProductOrders");
+                });
+
+            modelBuilder.Entity("Order.Model.Product", b =>
+                {
+                    b.Navigation("ProductOrders");
                 });
 #pragma warning restore 612, 618
         }

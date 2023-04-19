@@ -28,6 +28,8 @@ namespace Order.Model
         [StringLength(20)]
         public string TaxIdentifier { get; set;}
 
+        public ICollection<Orders> Orders { get; set;}
+
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
         public DateTime? LastUpdate { get; set; } = null;
