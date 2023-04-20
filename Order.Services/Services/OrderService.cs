@@ -39,6 +39,16 @@ namespace Order.Services.Services
             var order = _mapper.Map<Orders>(orderDTO);
             _unitOfWork.Orders.Add(order);
             await _unitOfWork.SaveAsync();
+
+
+            OrderDetail od = new OrderDetail
+            {
+                OrderId = order.OrderId,
+                ProductId = 5,
+            };
+            _unitOfWork.OrderDetails.Add(od);
+            await _unitOfWork.SaveAsync();
+
         }
 
         public async Task<bool> Delete(int id)

@@ -51,5 +51,12 @@ namespace OrderAPI.Controllers
             return res == true ? Ok("Customer Deleted Successfully")
                 : NotFound("Customer Does not exist with " + id + " id");
         }
+
+        [HttpGet("products/{id}")]
+        public IActionResult GetProducts(int id)
+        {
+            var pd = _customerService.GetProductsCustomer(id);
+            return Ok(pd);
+        }
     }
 }

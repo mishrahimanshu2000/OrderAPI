@@ -1,10 +1,12 @@
 ﻿using AutoMapper;
 using Order.Data.Interfaces;
+using Order.Data.Repository;
 using Order.Model;
 using Order.Services.DTOs;
 using Order.Services.Interface;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -66,6 +68,14 @@ namespace Order.Services.Services
             _unitOfWork.Customers.Update(customer);
             await _unitOfWork.SaveAsync();
             return true;
+        }
+
+        public IEnumerable<ProductByCustomer> GetProductsCustomer(int id)
+        {
+            var query = _unitOfWork.Customers.Getproduct(id);
+
+            return query.ToList();
+                
         }
     }
 }

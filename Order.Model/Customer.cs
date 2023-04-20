@@ -33,4 +33,20 @@ namespace Order.Model
         public virtual ICollection<Orders> CustomerOrder { get; set;} = new List<Orders>();
     }
 
+    public class ProductByCustomer
+    {
+        public int CustomerId { get; set; }
+
+        public int OrderId { get; set; }
+
+        public int OrderDetailId { get; set; }
+
+        public int ProductId { get; set; }
+        public string? ProductName { get; set; }
+
+        public string ProductCode { get; set; }
+
+        public decimal Price { get; set; }
+    }
+
 }

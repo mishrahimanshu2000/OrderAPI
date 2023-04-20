@@ -14,7 +14,7 @@ namespace Order.Services.DTOs
 
         public string ProductName { get; set; }
 
-        public string ProductDeescription { get; set; }
+        public string ProductDescription { get; set; }
 
         public decimal ProductPrice { get; set; }
     }

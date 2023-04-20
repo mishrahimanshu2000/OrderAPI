@@ -16,5 +16,7 @@ namespace Order.Services.Interface
         Task Add(CustomerDTO customer);
         Task<bool> Delete(int id);
         Task<bool> Update(int id, CustomerDTO customer);
+
+        IEnumerable<ProductByCustomer> GetProductsCustomer(int id);
     }
 }

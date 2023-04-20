@@ -29,7 +29,6 @@ namespace OrderAPI
 
             // All controller Service
             builder.Services.AddScoped<IProductService, ProductService>();
-            builder.Services.AddScoped<IOrderDetailService, OrderDetailService>();
             builder.Services.AddScoped<IOrderService, OrderService>();
             builder.Services.AddScoped<ICustomerService, CustomerService>();
 
