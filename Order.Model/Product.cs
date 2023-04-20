@@ -29,8 +29,6 @@ namespace Order.Model
 
         public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
-        public virtual ICollection<ProductOrderDetail> ProductOrderDetail { get; set; } = new List<ProductOrderDetail>();
-
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
         public DateTime? LastUpdate { get; set; } = null;

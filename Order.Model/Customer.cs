@@ -10,6 +10,7 @@ namespace Order.Model
 {
     public class Customer
     {
+        [Key]
         public int CustomerId { get; set; }
 
         [Required]

@@ -24,8 +24,6 @@ namespace Order.Model
 
         public DateTime? LastUpdate { get; set; } = null;
 
-        public virtual ICollection<ProductOrderDetail> ProductOrderDetail { get; set; } = new List<ProductOrderDetail>();
-
         public virtual Orders Order { get; set; } = null!;
 
         public virtual Product Product { get; set; } = null!;

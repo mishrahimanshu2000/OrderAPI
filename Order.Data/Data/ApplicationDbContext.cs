@@ -23,7 +23,7 @@ namespace Order.Data.Data
         {
             modelBuilder.Entity<Customer>(entity =>
             {
-                entity.HasKey(e => e.CustomerId);
+                //entity.HasKey(e => e.CustomerId);
 
                 entity.ToTable("Customer");
 
@@ -32,7 +32,7 @@ namespace Order.Data.Data
 
             modelBuilder.Entity<Orders>(entity =>
             {
-                entity.HasKey(e => e.OrderId);
+                //entity.HasKey(e => e.OrderId);
 
                 entity.ToTable("Order");
 
@@ -49,7 +49,7 @@ namespace Order.Data.Data
 
             modelBuilder.Entity<OrderDetail>(entity =>
             {
-                entity.HasKey(e => e.OrderDetailId);
+                //entity.HasKey(e => e.OrderDetailId);
 
                 entity.ToTable("OrderDetail");
 
@@ -77,20 +77,6 @@ namespace Order.Data.Data
                     .HasColumnType("decimal(12,2)");
             });
 
-            modelBuilder.Entity<ProductOrderDetail>(entity =>
-            {
-                entity.HasKey(e => new { e.ProductId, e.OrderDetailId});
-
-                entity.ToTable("ProductOrderDetail");
-
-                entity.HasOne(e => e.Product).WithMany(x => x.ProductOrderDetail)
-                    .HasForeignKey(e => e.ProductId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
-
-                entity.HasOne(e => e.OrderDetail).WithMany(x => x.ProductOrderDetail)
-                    .HasForeignKey(e => e.OrderDetailId)
-                    .OnDelete(DeleteBehavior.ClientSetNull);
-            });
         }
     }
 }
