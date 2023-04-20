@@ -11,16 +11,12 @@ namespace Order.Model
 {
     public class Orders
     {
-        [Key]
         public int OrderId { get; set; }
 
-
-        [DisplayName(nameof(Customer))]
-        //[ForeignKey("CustomerId")]
-        public Customer Customer { get; set; }
-
+        public int CustomerId { get; set; }
+        [ForeignKey("CustomerId")]
+        
         public DateTime OrderDate { get; set; } = DateTime.Today;
-
 
         [Required]
         public decimal OrderAmount { get; set; }
@@ -30,5 +26,9 @@ namespace Order.Model
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
         public DateTime? LastUpdate { get; set; } = null;
+
+        public virtual Customer Customer { get; set; } = null!;
+
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
     }
 }

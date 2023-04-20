@@ -21,41 +21,76 @@ namespace Order.Data.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Customer>().ToTable("Customer_info");
+            modelBuilder.Entity<Customer>(entity =>
+            {
+                entity.HasKey(e => e.CustomerId);
 
-            modelBuilder.Entity<Orders>().ToTable("Order_info");
+                entity.ToTable("Customer");
 
-            modelBuilder.Entity<OrderDetail>().ToTable("Order_Details");
+                entity.HasIndex(e => e.CustomerName, "IndexCustomerName");
+            });
 
-            modelBuilder.Entity<Product>().ToTable("Product_info");
+            modelBuilder.Entity<Orders>(entity =>
+            {
+                entity.HasKey(e => e.OrderId);
 
-            modelBuilder.Entity<Customer>().Property(c => c.CustomerId)
-                .IsRequired()
-                .HasColumnType("INT");
+                entity.ToTable("Order");
 
-            modelBuilder.Entity<Customer>()
-                .HasMany(o => o.Orders)
-                .WithOne(c => c.Customer);
+                entity.HasIndex(e => e.CustomerId, "IndexOrderCustomerId");
 
-            modelBuilder.Entity<Product>().Property(p => p.ProductPrice)
-                .HasColumnType("decimal(8,2)").HasDefaultValue(0);
+                entity.Property(e => e.OrderDate)
+                .HasDefaultValueSql("(getDate())")
+                .HasColumnType("datetime");
 
-            modelBuilder.Entity<ProductOrderDetail>()
-                .HasKey(po => new { po.ProductId, po.OrderDetailId });
+                entity.HasOne(e => e.Customer).WithMany(x => x.CustomerOrder)
+                    .HasForeignKey(e => e.CustomerId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+            });
 
-            modelBuilder.Entity<ProductOrderDetail>()
-                .HasOne(po => po.Product)
-                .WithMany(p => p.ProductOrders)
-                .HasForeignKey(p => p.ProductId)
-                .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<OrderDetail>(entity =>
+            {
+                entity.HasKey(e => e.OrderDetailId);
 
-            modelBuilder.Entity<ProductOrderDetail>()
-                .HasOne(po => po.OrderDetail)
-                .WithMany(p => p.ProductOrders)
-                .HasForeignKey(p => p.OrderDetailId)
-                .OnDelete(DeleteBehavior.NoAction);
+                entity.ToTable("OrderDetail");
 
+                entity.Property(e => e.Quantity).HasDefaultValueSql("((1))");
+
+                entity.HasOne(e => e.Order).WithMany(x => x.OrderDetails)
+                    .HasForeignKey(e => e.OrderId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.HasOne(e => e.Product).WithMany(x => x.OrderDetails)
+                    .HasForeignKey(e => e.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+            });
+
+            modelBuilder.Entity<Product>(entity =>
+            {
+                entity.HasKey(e => e.ProductId);
+
+                entity.ToTable("Product");
+
+                entity.HasIndex(e => e.ProductCode, "IndexProductCode");
+
+                entity.Property(e => e.ProductPrice)
+                    .HasDefaultValueSql("((0))")
+                    .HasColumnType("decimal(12,2)");
+            });
+
+            modelBuilder.Entity<ProductOrderDetail>(entity =>
+            {
+                entity.HasKey(e => new { e.ProductId, e.OrderDetailId});
+
+                entity.ToTable("ProductOrderDetail");
+
+                entity.HasOne(e => e.Product).WithMany(x => x.ProductOrderDetail)
+                    .HasForeignKey(e => e.ProductId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+
+                entity.HasOne(e => e.OrderDetail).WithMany(x => x.ProductOrderDetail)
+                    .HasForeignKey(e => e.OrderDetailId)
+                    .OnDelete(DeleteBehavior.ClientSetNull);
+            });
         }
     }
-
 }

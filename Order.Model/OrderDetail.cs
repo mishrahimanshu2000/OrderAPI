@@ -14,25 +14,20 @@ namespace Order.Model
         [Key]
         public int OrderDetailId { get; set; }
 
+        public int ProductId { get; set; }
 
-        [DisplayName(nameof(Orders))]
-        //[ForeignKey("OrderId")]
-        public Orders Orders { get; set; }
+        public int OrderId { get; set; }
 
-
-        [DisplayName(nameof(Product))]
-        //[ForeignKey("ProductId")]
-        public Product Product { get; set; }
-
-        //public ICollection<Product> Product { get; set; }
-
-        public ICollection<ProductOrderDetail> ProductOrders { get; set; }
-
-        [Required]
         public int Quantity { get; set; }
 
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 
         public DateTime? LastUpdate { get; set; } = null;
+
+        public virtual ICollection<ProductOrderDetail> ProductOrderDetail { get; set; } = new List<ProductOrderDetail>();
+
+        public virtual Orders Order { get; set; } = null!;
+
+        public virtual Product Product { get; set; } = null!;
     }
 }

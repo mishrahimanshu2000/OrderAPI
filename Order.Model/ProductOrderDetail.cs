@@ -10,10 +10,10 @@ namespace Order.Model
     {
         public int ProductId { get; set; }
 
-        public Product Product { get; set; }
+        public Product Product { get; set; } = null!;
 
         public int OrderDetailId { get; set; }
 
-        public OrderDetail OrderDetail { get; set; }
+        public OrderDetail OrderDetail { get; set; } = null!;
     }
 }

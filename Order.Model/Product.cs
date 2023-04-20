@@ -14,22 +14,22 @@ namespace Order.Model
 
         [StringLength(20)]
         [Required]
-        public string ProductCode { get; set; }
+        public string ProductCode { get; set; } = null!;
 
         [Required]
         [StringLength(100)]
-        public string ProductName { get; set; }
+        public string ProductName { get; set; } = null!;
 
         [Required]
         [StringLength(500)]
-        public string ProductDescription { get; set; }
+        public string? ProductDescription { get; set; }
 
         [Required]
         public decimal ProductPrice { get; set; }
 
-        //public ICollection<OrderDetail> OrderDetails { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; } = new List<OrderDetail>();
 
-        public ICollection<ProductOrderDetail> ProductOrders { get; set; }
+        public virtual ICollection<ProductOrderDetail> ProductOrderDetail { get; set; } = new List<ProductOrderDetail>();
 
         public DateTime CreatedDate { get; set; } = DateTime.Now;
 

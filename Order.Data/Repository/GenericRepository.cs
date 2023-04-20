@@ -43,7 +43,7 @@ namespace Order.Data.Repository
         {
             return await this.DbSet.Where(expression).AsNoTracking().FirstOrDefaultAsync();
         }
-       
+        
 
         public EntityEntry<T> Update(T entity)
         {
