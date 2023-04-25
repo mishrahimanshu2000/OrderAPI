@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Order.Data.Repository
 {
-    public class CustomerRepository : GenericRepository<Customer>, ICustomerRepository
+    public class CustomerRepository : GenericRepository<Customer>, ICustomerRepository 
     {
         private ApplicationDbContext _dbContext;
         public CustomerRepository(ApplicationDbContext context)

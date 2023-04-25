@@ -75,7 +75,7 @@ namespace Order.Services.Services
             var query = _unitOfWork.Customers.Getproduct(id);
 
             return query.ToList();
-                
+
         }
     }
 }
