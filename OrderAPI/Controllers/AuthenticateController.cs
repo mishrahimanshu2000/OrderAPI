@@ -11,7 +11,7 @@ using System.Text;
 
 namespace OrderAPI.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/authenticate")]
     [ApiController]
     public class AuthenticateController : ControllerBase
     {
